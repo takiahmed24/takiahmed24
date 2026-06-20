@@ -2,7 +2,7 @@
 
 <p align="center">
   <a href="https://git.io/typing-svg">
-    <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=24&pause=1000&color=7C5CFF&center=true&vCenter=true&width=600&lines=Hi%2C+I'm+Muhammad+Taki+Ahmed;Software+Engineer;Building+Smart+Automations+%26+AI+Agents;Exploring+the+Future+of+Tech" alt="Typing SVG" />
+    <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=24&pause=1000&color=7C5CFF&center=true&vCenter=true&width=600&lines=Hi%2C+I'm+Muhammad+Taki+Ahmed;Undergraduate+CS+Student;Building+Smart+Automations+%26+AI+Agents;Exploring+the+Future+of+Tech" alt="Typing SVG" />
   </a>
 </p>
 
@@ -10,7 +10,7 @@
 
 ### 👨‍💻 About Me
 
-I am a passionate **Software Engineer** and **Automations Developer** based in Bangladesh. I love designing clean architectures, building autonomous tools, and exploring the intersection of AI, automation, and desktop/mobile control.
+I am a passionate **Computer Science Undergraduate Student** and **Automations Developer** based in Bangladesh. I love building autonomous tools, writing clean code, and exploring the intersection of AI, software design, and desktop/mobile automation.
 
 *   🔭 **Current Project:** Building and optimizing **TITAN (NexusAgent)**, a local privacy-first AI operator.
 *   🌱 **Learning & Exploring:** Deepening my knowledge in AI agentic loops, LLM routing, and advanced system automation.
