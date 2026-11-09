@@ -8,4 +8,4 @@ pip install fonttools
 FONT_DIR=path/to/google-fonts/ofl/ PORTRAIT=path/to/portrait.jpg python gen.py ../../assets
 ```
 
-Edit the text in the `hero()`, `card(...)`, `toolkit()`, `journey()` and `contact()` calls, then re-run.
+Edit the text in the `hero()` function and the `REPOS` list, then re-run.

@@ -160,8 +160,9 @@ random.seed(7)
 # HERO
 # =====================================================================
 def hero():
-    W, H = 1200, 660
+    W, H = 1200, 600
     END = 5.6
+    SH = -56
     port = base64.b64encode(open(os.environ.get('PORTRAIT', 'portrait.jpg'), 'rb').read()).decode()
     px, py, pw, ph = 600, 104, 420, 567
     defs = f'''<linearGradient id="giantg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{RED2}"/><stop offset=".45" stop-color="{RED}"/><stop offset=".8" stop-color="#5d0c12"/><stop offset="1" stop-color="#5d0c12" stop-opacity="0"/></linearGradient>
@@ -176,7 +177,8 @@ def hero():
 <linearGradient id="sweep" x1="0" y1="0" x2="1" y2="0"><stop offset=".4" stop-color="#ff4d5a" stop-opacity="0"/><stop offset=".48" stop-color="#ff4d5a" stop-opacity=".35"/><stop offset=".5" stop-color="#fff" stop-opacity=".3"/><stop offset=".52" stop-color="#ff4d5a" stop-opacity=".35"/><stop offset=".6" stop-color="#ff4d5a" stop-opacity="0"/></linearGradient>'''
     s = [frame_open(W, H, defs)]
     s.append(f'<rect x="{px - 80}" y="60" width="{pw + 160}" height="560" fill="url(#glow)"/>')
-    s.append(f'<rect x="44" y="70" width="2" height="{H - 70}" fill="url(#redl)" opacity=".7"/>')
+    s.append(f'<rect x="44" y="24" width="2" height="{H - 24}" fill="url(#redl)" opacity=".7"/>')
+    s.append(f'<g transform="translate(0,{SH})">')
 
     # nav
     lg, _, lw = text('anton', 'TAKI', 26, 76, 58)
@@ -189,7 +191,6 @@ def hero():
     nav += f'<circle cx="930" cy="50" r="3.5" fill="#3DDC84"/><circle cx="930" cy="50" r="7" fill="#3DDC84" opacity=".15"/>{av}'
     bt, _, bw = text('bold', "LET'S TALK", 12, 1124, 55, fill='#fff', anchor='middle', ls=.04)
     nav += f'<rect x="{1124 - bw / 2 - 16:.0f}" y="34" width="{bw + 32:.0f}" height="32" rx="4" fill="{RED}"/>{bt}'
-    s.append(appear(nav, .3, .6))
 
     # giant PORTFOLIO wipe
     gsz = 236
@@ -222,7 +223,6 @@ def hero():
     b2, _, b2w = typed('body', 'and local AI agents, then turn ideas into stories.', 15, L, 536, 3.7, 4.5, fill=MUTED)
     s += [k1, k2, hello, n1, n2, n2d, role, b1, b2]
     btxt, _, btw = text('bold', 'SEE MY WORK  →', 13, L + 20, 586, fill='#fff', ls=.04)
-    s.append(appear(f'<rect x="{L}" y="562" width="{btw + 40:.0f}" height="38" rx="4" fill="{RED}"/>{btxt}', 4.5, .4))
 
     # stats (right)
     SX = 1060
@@ -236,7 +236,6 @@ def hero():
 
     # bottom bar
     rl, _, _ = text('mono', 'SCROLL TO EXPLORE  ↓', 10, W - 76, H - 26, fill=MUTED, anchor='end', ls=.14)
-    s.append(appear(rl, 4.8))
 
     # selection boxes
     s.append(selbox(gx - 6, 452 - gsz * .74, gw + 12, gsz * .76, 'Text · Giant', .5, 2.6))
@@ -248,6 +247,7 @@ def hero():
     for (x, y, c, t) in [(px + 90, py + 160, COLORS[3], 1.5), (px + 300, py + 380, COLORS[3], 1.8), (L + 300, 440, COLORS[1], 3.0), (SX + 120, 480, COLORS[5], 3.9), (L + 180, 600, COLORS[4], 4.6)]:
         s.append(plus(x, y, c, t))
 
+    s.append('</g>')
     s.append(rulers(W, H, END))
 
     # HUD
@@ -269,13 +269,15 @@ def hero():
     s.append(f'<rect x="0" y="{H - 2}" width="0" height="2" fill="{FIG}"><animate attributeName="width" from="0" to="{W}" begin=".2s" dur="{END - .2}s" fill="freeze"/><animate attributeName="opacity" from="1" to="0" begin="{END}s" dur=".6s" fill="freeze"/></rect>')
 
     # cursors
+    s.append(f'<g transform="translate(0,{SH})">')
     rnd = lambda cx, cy, r: [(cx + random.uniform(-r, r), cy + random.uniform(-r * .6, r * .6)) for _ in range(4)]
     s.append(cursor(COLORS[0], [(0, 600, 330), (.5, gx, 300), (2.5, gx + gw, 330), (2.9, 930, 140)], END, rnd(0, 0, 40), END))
     s.append(cursor(COLORS[1], [(0, 620, 340), (.8, L, 140), (1.4, L + k1w, 150), (1.9, L + k2w, 168), (2.2, L + hw, 222), (3.0, L, 470), (3.6, L + rw, 476), (4.0, 420, 330)], END, rnd(0, 0, 50), END))
     s.append(cursor(COLORS[2], [(0, 580, 320), (1.0, L, 280), (1.8, L + n1w, 300), (2.8, L + n2w, 400), (3.4, 480, 250)], END, rnd(0, 0, 50), END))
     s.append(cursor(COLORS[3], [(0, 610, 360), (1.3, px - 60, py + 20), (2.4, px + pw + 60, py + ph - 20), (3.4, px + pw / 2, py + ph / 2), (4.4, 760, 190)], END, rnd(0, 0, 60), END))
-    s.append(cursor(COLORS[4], [(0, 590, 350), (3.0, L + 200, 520), (3.4, L, 505), (4.5, L + b2w, 536), (4.9, L + 120, 600), (5.3, 300, 610)], END, rnd(0, 0, 40), END))
-    s.append(cursor(COLORS[5], [(0, 630, 320), (.3, 520, 50), (1.2, 900, 50), (2.3, SX, 210), (3.9, SX + 120, 470), (4.6, 1100, 560)], END, rnd(0, 0, 40), END))
+    s.append(cursor(COLORS[4], [(0, 590, 350), (3.0, L + 200, 520), (3.4, L, 505), (4.5, L + b2w, 536), (4.9, L + 160, 560), (5.3, 300, 590)], END, rnd(0, 0, 40), END))
+    s.append(cursor(COLORS[5], [(0, 630, 320), (.3, 520, 130), (1.2, 900, 120), (2.3, SX, 210), (3.9, SX + 120, 470), (4.6, 1100, 560)], END, rnd(0, 0, 40), END))
+    s.append('</g>')
     s.append(frame_close())
     save('hero.svg', ''.join(s))
 
@@ -468,18 +470,74 @@ def footer():
     s += [a, b, lg, d, frame_close()]
     save('footer.svg', ''.join(s))
 
+
+LANG = {'HTML': '#e34c26', 'Python': '#3572A5', 'TypeScript': '#3178c6', 'JavaScript': '#f1e05a', 'C#': '#178600', 'Java': '#b07219', 'Markdown': '#083fa1'}
+def wrap(fk, s, size, maxw):
+    lines, cur = [], ''
+    for w in s.split():
+        t = (cur + ' ' + w).strip()
+        if width(fk, t, size) <= maxw: cur = t
+        else: lines.append(cur); cur = w
+    if cur: lines.append(cur)
+    return lines
+
+def repo(fname, name, desc, lang, extra, color, delay):
+    W, H = 590, 168
+    s = [frame_open(W, H)]
+    s.append(f'<rect x=".5" y=".5" width="{W - 1}" height="{H - 1}" rx="14" fill="{PANEL}" stroke="{LINE}"/><rect x="0" y="0" width="3" height="{H}" fill="{RED}"/>')
+    # book icon
+    s.append(f'<path d="M26 28h10a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H26zM54 28H44a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h11z" fill="none" stroke="{MUTED}" stroke-width="1.6" stroke-linejoin="round"/>')
+    size = 22
+    while width('bold', name, size) > W - 200: size -= 1
+    np_, _, nw = text('bold', name, size, 66, 44, fill=RED2)
+    s.append(np_)
+    pub, _, pw = text('mono', 'PUBLIC', 9, 66 + nw + 22, 40, fill=MUTED, ls=.12)
+    s.append(f'<rect x="{66 + nw + 12:.0f}" y="27" width="{pw + 20:.0f}" height="18" rx="9" fill="none" stroke="{LINE}"/>{pub}')
+    for i, ln in enumerate(wrap('body', desc, 14, W - 70)[:2]):
+        p, _, _ = text('body', ln, 14, 26, 82 + i * 22, fill=MUTED); s.append(p)
+    x = 26
+    if lang:
+        s.append(f'<circle cx="{x + 6}" cy="{H - 30}" r="6" fill="{LANG.get(lang, MUTED)}"/>')
+        p, _, lw = text('body', lang, 12.5, x + 18, H - 25.5, fill=INK); s.append(p); x += lw + 40
+    for e in extra:
+        p, _, ew = text('body', e, 12.5, x, H - 25.5, fill=MUTED); s.append(p); x += ew + 28
+    op, _, _ = text('mono', 'OPEN →', 10, W - 26, H - 26, fill=RED2, anchor='end', ls=.14)
+    s.append(op)
+    # agent hover loop
+    T = 10.0
+    hs = ''.join(f'<rect x="{x - 3.5}" y="{y - 3.5}" width="7" height="7" fill="#fff" stroke="{FIG}"/>' for x, y in [(8, 8), (W - 8, 8), (8, H - 8), (W - 8, H - 8)])
+    s.append(f'<g opacity="0"><animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;.2;.24;.6;.66;1" dur="{T}s" begin="{delay}s" repeatCount="indefinite"/>'
+             f'<rect x="8" y="8" width="{W - 16}" height="{H - 16}" fill="none" stroke="{FIG}"/>{hs}</g>')
+    path = [(W + 30, H + 30), (W + 30, H + 30), (60, 40), (W - 40, H - 30), (W * .6, H * .55), (W + 30, H * .3), (W + 30, H + 30)]
+    kt = [0, .14, .24, .44, .6, .8, 1]
+    vals = ';'.join(f'{x:.0f},{y:.0f}' for x, y in path)
+    s.append(f'<g transform="translate({W + 30},{H + 30})"><animateTransform attributeName="transform" type="translate" values="{vals}" keyTimes="{";".join(map(str, kt))}" '
+             f'calcMode="spline" keySplines="{";".join([".45 .05 .25 1"] * 6)}" dur="{T}s" begin="{delay}s" repeatCount="indefinite"/>'
+             f'<path d="{ARROW}" fill="{color}" stroke="#000" stroke-opacity=".55" stroke-width="1.1" stroke-linejoin="round"/></g>')
+    s.append(frame_close())
+    save(fname, ''.join(s))
+
+REPOS = [
+    ('titan', 'Local, zero-cost AI operator that automates Windows desktop apps and Android phones over ADB, with smart routing across local and free-tier LLMs.', 'Python', ['MIT']),
+    ('portfolio', 'Cinematic one-page portfolio. The page builds itself, layer by layer, with a swarm of agent cursors.', 'HTML', ['GitHub Pages']),
+    ('financial-alpha-mcp', 'Financial intelligence MCP server for Claude Desktop and AI agents: live market data, SEC EDGAR 10-K parsing and backtesting.', 'Python', ['MIT']),
+    ('nyxeris', 'Storefront and e-commerce engine for Nyxeris: tech, desk gear and apparel with white-labeled Whop checkout.', 'HTML', []),
+    ('cjdropshipping-whop', 'Multi-tenant fulfillment engine connecting Whop creators to CJ Dropshipping, with 1-click listing and automated order tracking.', 'HTML', []),
+    ('raydrim', 'Website for Raydrim, the studio behind the Android game Last Charge. Built with Next.js.', 'TypeScript', []),
+    ('takiahmed24.github.io', 'Taki Apps (takiapps.com): the studio site for Last Charge and CheckFirst.', 'HTML', []),
+    ('NeedBridge', 'Multi-vendor e-commerce platform in .NET with customers, vendors, admins and a SuperAdmin.', 'C#', []),
+    ('NeedBridge_RAD', 'NeedBridge rebuilt for the web under the Rapid Application Development (RAD) model.', 'HTML', []),
+    ('aiub-routine-visualizer', 'Schedule builder that turns the AIUB class routine into a clean weekly timetable.', 'JavaScript', []),
+    ('CampusDude', 'Campus companion web app for university students.', 'HTML', []),
+    ('ONLINE-FOOD-ORDER-SYSTEM', 'Small ordering system: buyers pick from three food categories and orders are stored with their details.', 'Java', []),
+]
+
 hero()
-header('h-work.svg', '01', 'Selected work', 'WORK THAT', 'SPEAKS.', COLORS[0], 'HOVER A CARD · CLICK TO OPEN')
-header('h-toolkit.svg', '02', 'Toolkit', 'TOOLS OF', 'THE TRADE.', COLORS[1])
-header('h-journey.svg', '03', 'The journey', 'KEEP MOVING.', 'KEEP MAKING.', COLORS[2])
-card('card-titan.svg', '01', 'AI agent · Python', 'TITAN', 'Local, privacy-first AI operator for PC + Android.', 'REPO →', COLORS[3], 0, accent='#E3262E')
-card('card-nyxeris.svg', '02', 'E-commerce · Website', 'Nyxeris Store', 'Online store for tech, home, auto and office essentials.', 'VISIT →', COLORS[0], 2.2, accent='#FF4D5A')
-card('card-lastcharge.svg', '03', 'Game · Android', 'Last Charge', 'Endless runner for Android. Live on Google Play.', 'PLAY →', COLORS[2], 4.4, accent='#E3262E')
-card('card-checkfirst.svg', '04', 'App', 'CheckFirst', 'Check a number, wallet or site before you pay.', 'OPEN →', COLORS[5], 6.6, accent='#FF4D5A')
-toolkit()
-journey()
-contact()
-button('btn-email.svg', 'EMAIL ME  →', True)
+header('h-repos.svg', '01', 'Open source', 'MY', 'REPOSITORIES.', COLORS[0], '12 OF 18 FEATURED')
+for i, (n, d, l, e) in enumerate(REPOS):
+    repo(f'repo-{n.lower()}.svg', n, d, l, e, COLORS[i % len(COLORS)], (i * 1.7) % 10)
+button('btn-portfolio.svg', 'VIEW FULL PORTFOLIO  →', True)
+button('btn-email.svg', 'EMAIL ME  →', False)
 button('btn-takiapps.svg', 'TAKIAPPS.COM  →', False)
-button('btn-titan.svg', 'TITAN ON GITHUB  →', False)
+button('btn-allrepos.svg', 'SEE ALL 18 REPOSITORIES  →', False)
 footer()
