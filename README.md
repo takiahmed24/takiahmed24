@@ -1,4 +1,6 @@
-<a href="#"><img src="assets/hero.svg" width="100%" alt="Hello, I'm Taki Ahmed. Builder and storyteller. CSE undergrad at AIUB building stores, games, apps and local AI agents."></a>
+<a href="https://takiapps.com/portfolio/"><img src="assets/hero.svg" width="100%" alt="Hello, I'm Taki Ahmed. Builder and storyteller. CSE undergrad at AIUB building stores, games, apps and local AI agents."></a>
+
+<p align="center"><a href="https://takiapps.com/portfolio/"><img src="assets/btn-portfolio.svg" height="46" alt="View full portfolio"></a></p>
 
 <img src="assets/h-work.svg" width="100%" alt="01 / Selected work: Work that speaks.">
 
@@ -20,6 +22,7 @@
 <img src="assets/contact.svg" width="100%" alt="Let's work together.">
 
 <p align="center">
+  <a href="https://takiapps.com/portfolio/"><img src="assets/btn-portfolio.svg" height="46" alt="View full portfolio"></a>&nbsp;
   <a href="mailto:muhammadtakiahmed@gmail.com"><img src="assets/btn-email.svg" height="46" alt="Email me"></a>&nbsp;
   <a href="https://takiapps.com"><img src="assets/btn-takiapps.svg" height="46" alt="takiapps.com"></a>&nbsp;
   <a href="https://github.com/takiahmed24/TITAN"><img src="assets/btn-titan.svg" height="46" alt="TITAN on GitHub"></a>
