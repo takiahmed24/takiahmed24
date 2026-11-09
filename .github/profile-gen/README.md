@@ -5,7 +5,7 @@ Rebuilds the animated SVG panels in `/assets` (all text is converted to outlines
 ```bash
 pip install fonttools
 # fonts from github.com/google/fonts: ofl/anton, ofl/archivo, ofl/dmmono, ofl/caveat
-FONT_DIR=path/to/google-fonts/ofl/ PORTRAIT=path/to/portrait.jpg python gen.py ../../assets
+FONT_DIR=path/to/google-fonts/ofl/ python gen.py ../../assets
 ```
 
 Edit the text in the `hero()` function and the `REPOS` list, then re-run.

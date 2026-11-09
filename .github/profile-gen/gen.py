@@ -163,7 +163,7 @@ def hero():
     W, H = 1200, 600
     END = 5.6
     SH = -56
-    port = base64.b64encode(open(os.environ.get('PORTRAIT', 'portrait.jpg'), 'rb').read()).decode()
+    port = ''  # no portrait in the banner: the GitHub avatar already shows it
     px, py, pw, ph = 600, 104, 420, 567
     defs = f'''<linearGradient id="giantg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{RED2}"/><stop offset=".45" stop-color="{RED}"/><stop offset=".8" stop-color="#5d0c12"/><stop offset="1" stop-color="#5d0c12" stop-opacity="0"/></linearGradient>
 <linearGradient id="redl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{RED}" stop-opacity="0"/><stop offset=".06" stop-color="{RED}"/><stop offset=".94" stop-color="{RED}"/><stop offset="1" stop-color="{RED}" stop-opacity="0"/></linearGradient>
@@ -176,7 +176,7 @@ def hero():
 <radialGradient id="glow" cx=".5" cy=".45" r=".5"><stop offset="0" stop-color="{RED}" stop-opacity=".22"/><stop offset="1" stop-color="{RED}" stop-opacity="0"/></radialGradient>
 <linearGradient id="sweep" x1="0" y1="0" x2="1" y2="0"><stop offset=".4" stop-color="#ff4d5a" stop-opacity="0"/><stop offset=".48" stop-color="#ff4d5a" stop-opacity=".35"/><stop offset=".5" stop-color="#fff" stop-opacity=".3"/><stop offset=".52" stop-color="#ff4d5a" stop-opacity=".35"/><stop offset=".6" stop-color="#ff4d5a" stop-opacity="0"/></linearGradient>'''
     s = [frame_open(W, H, defs)]
-    s.append(f'<rect x="{px - 80}" y="60" width="{pw + 160}" height="560" fill="url(#glow)"/>')
+    s.append(f'<rect x="380" y="40" width="680" height="560" fill="url(#glow)"/>')
     s.append(f'<rect x="44" y="24" width="2" height="{H - 24}" fill="url(#redl)" opacity=".7"/>')
     s.append(f'<g transform="translate(0,{SH})">')
 
@@ -194,17 +194,15 @@ def hero():
 
     # giant PORTFOLIO wipe
     gsz = 236
-    gp, gx, gw = text('anton', 'PORTFOLIO', gsz, W / 2, 452, fill='url(#giantg)', anchor='middle')
+    while width('anton', 'BUILDING', gsz) > 600: gsz -= 2
+    GB = 330 + gsz * .36
+    gp, gx, gw = text('anton', 'BUILDING', gsz, 418, GB, fill='url(#giantg)')
     s.append(f'<g clip-path="url(#gclip)">{gp}</g>')
 
     # portrait
-    s.append(placeholder(px - 60, py + 20, pw + 120, ph - 40, 1.3, 3.2))
-    s.append(f'<g mask="url(#pm)"><g clip-path="url(#pclip)"><image x="{px}" y="{py}" width="{pw}" height="{ph}" preserveAspectRatio="xMidYMin slice" xlink:href="data:image/jpeg;base64,{port}" href="data:image/jpeg;base64,{port}">'
-             f'<animateTransform attributeName="transform" type="scale" values="1;1.04;1" dur="16s" begin="3.8s" repeatCount="indefinite" additive="sum"/></image>'
-             f'<rect x="{px - pw}" y="{py}" width="{pw}" height="{ph}" fill="url(#sweep)"><animate attributeName="x" from="{px - pw}" to="{px + pw}" begin="3.1s" dur="1.6s" fill="freeze"/></rect></g></g>')
     # sparks
-    for i in range(12):
-        sx = px + 40 + random.random() * (pw - 80); sy = py + ph * (.55 + random.random() * .4)
+    for i in range(18):
+        sx = gx + random.random() * gw; sy = GB + 20 + random.random() * 60
         d = 4 + random.random() * 4; b = 4 + random.random() * 4
         s.append(f'<circle cx="{sx:.0f}" cy="{sy:.0f}" r="1.6" fill="{RED2}" opacity="0"><animate attributeName="cy" from="{sy:.0f}" to="{sy - 340:.0f}" begin="{b:.1f}s" dur="{d:.1f}s" repeatCount="indefinite"/>'
                  f'<animate attributeName="cx" from="{sx:.0f}" to="{sx + 26:.0f}" begin="{b:.1f}s" dur="{d:.1f}s" repeatCount="indefinite"/>'
@@ -226,7 +224,7 @@ def hero():
 
     # stats (right)
     SX = 1060
-    stats = [('AIUB', 'UNDERGRADUATE'), ('2026', 'PORTFOLIO LAUNCH'), ('04', 'PROJECTS SHIPPED')]
+    stats = [('AIUB', 'UNDERGRADUATE'), ('18', 'PUBLIC REPOS'), ('04', 'PROJECTS SHIPPED')]
     for i, (v, l) in enumerate(stats):
         y = 250 + i * 100
         vp, _, vw = text('anton', v, 46, SX, y)
@@ -238,13 +236,12 @@ def hero():
     rl, _, _ = text('mono', 'SCROLL TO EXPLORE  ↓', 10, W - 76, H - 26, fill=MUTED, anchor='end', ls=.14)
 
     # selection boxes
-    s.append(selbox(gx - 6, 452 - gsz * .74, gw + 12, gsz * .76, 'Text · Giant', .5, 2.6))
+    s.append(selbox(gx - 6, GB - gsz * .74, gw + 12, gsz * .76, 'Text · Giant', .5, 2.6))
     s.append(selbox(L - 4, 136, k2w + 8, 38, 'Text · Label', .8, 2.0))
     s.append(selbox(L - 4, 248, max(n1w, n2w) + 64, 192, 'H1 · Name', 1.0, 3.1))
-    s.append(selbox(px - 60, py + 20, pw + 120, ph - 40, 'Image · Portrait', 1.3, 3.9))
     s.append(selbox(L - 4, 456, b1w + 8, 88, 'Text · Bio', 3.0, 4.7))
     s.append(selbox(SX - 6, 200, 128, 280, 'Stats', 2.3, 3.9))
-    for (x, y, c, t) in [(px + 90, py + 160, COLORS[3], 1.5), (px + 300, py + 380, COLORS[3], 1.8), (L + 300, 440, COLORS[1], 3.0), (SX + 120, 480, COLORS[5], 3.9), (L + 180, 600, COLORS[4], 4.6)]:
+    for (x, y, c, t) in [(760, 240, COLORS[3], 1.6), (980, 430, COLORS[3], 2.2), (L + 300, 440, COLORS[1], 3.0), (SX + 120, 480, COLORS[5], 3.9), (L + 180, 600, COLORS[4], 4.6)]:
         s.append(plus(x, y, c, t))
 
     s.append('</g>')
@@ -274,7 +271,7 @@ def hero():
     s.append(cursor(COLORS[0], [(0, 600, 330), (.5, gx, 300), (2.5, gx + gw, 330), (2.9, 930, 140)], END, rnd(0, 0, 40), END))
     s.append(cursor(COLORS[1], [(0, 620, 340), (.8, L, 140), (1.4, L + k1w, 150), (1.9, L + k2w, 168), (2.2, L + hw, 222), (3.0, L, 470), (3.6, L + rw, 476), (4.0, 420, 330)], END, rnd(0, 0, 50), END))
     s.append(cursor(COLORS[2], [(0, 580, 320), (1.0, L, 280), (1.8, L + n1w, 300), (2.8, L + n2w, 400), (3.4, 480, 250)], END, rnd(0, 0, 50), END))
-    s.append(cursor(COLORS[3], [(0, 610, 360), (1.3, px - 60, py + 20), (2.4, px + pw + 60, py + ph - 20), (3.4, px + pw / 2, py + ph / 2), (4.4, 760, 190)], END, rnd(0, 0, 60), END))
+    s.append(cursor(COLORS[3], [(0, 610, 360), (1.3, 700, 250), (2.2, 990, 440), (3.4, 820, 330), (4.4, 760, 190)], END, rnd(0, 0, 60), END))
     s.append(cursor(COLORS[4], [(0, 590, 350), (3.0, L + 200, 520), (3.4, L, 505), (4.5, L + b2w, 536), (4.9, L + 160, 560), (5.3, 300, 590)], END, rnd(0, 0, 40), END))
     s.append(cursor(COLORS[5], [(0, 630, 320), (.3, 520, 130), (1.2, 900, 120), (2.3, SX, 210), (3.9, SX + 120, 470), (4.6, 1100, 560)], END, rnd(0, 0, 40), END))
     s.append('</g>')
